@@ -49,8 +49,7 @@ def crosses_segment(v0, alpha, seg):
     C = dy * x1 - dx * y1
 
     if abs(A) < 1e-12:  # odcinek pionowy -> równanie liniowe
-        with np.errstate(divide="ignore", invalid="ignore"):
-            return hit_at_time(-C / B, v0, alpha, seg) # B·t + C = 0 wiec t = -C / B
+        return hit_at_time(-C / B, v0, alpha, seg) # B·t + C = 0 wiec t = -C / B
     delta = B**2 - 4 * A * C
     root = np.sqrt(np.maximum(delta, 0))
     t1, t2 = (-B - root) / (2 * A), (-B + root) / (2 * A)
