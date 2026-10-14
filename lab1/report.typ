@@ -12,8 +12,8 @@
   #v(0.3em)
   #text(size: 13pt)[Laboratorium 1: Ruch ciała w jednorodnym polu grawitacyjnym]
   #v(1em)
-  Sebastian Kwaśniak, nr albumu 188807 \
-  Juliusz Radziszewski, nr albumu 193504
+  Sebastian Kwaśniak, 188807 \
+  Juliusz Radziszewski, 193504
 ]
 
 = Zadanie
