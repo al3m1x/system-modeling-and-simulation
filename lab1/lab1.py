@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 G = 10.0  # przyspieszenie ziemskie
 V0_RANGE = (1, 30)  # zakres prędkości początkowej
 ALPHA_RANGE = (1, 89)  # zakres kąta rzutu - deg
-N_TRIALS = 100_000
+N_TRIALS = 100000
 N_PLOTTED = 5  # liczba poprawnych trajektori do narysowania
 
 # obszary jako listy odcinków (x1, y1, x2, y2)
@@ -27,16 +27,19 @@ def trajectory(v0, alpha, n_points=300):
 
 def hit_at_time(t, v0, alpha, seg):
     # sprawdza, czy w chwili t ciało jest w locie i leży na odcinku
+    # po to żeby sie upewnić że nie tylko leży na prostej, ale dokładnie na tym odcinku
     x1, y1, x2, y2 = seg
     a = np.radians(alpha)
     vx, vy = v0 * np.cos(a), v0 * np.sin(a)
     x, y = vx * t, vy * t - 0.5 * G * t**2
+    # rzut punktu na odcinek, zapisany przez iloczyn skalarny, jak jest między 0 a 1 to punkt leży na odcinku
     s = ((x - x1) * (x2 - x1) + (y - y1) * (y2 - y1)) / ((x2 - x1)**2 + (y2 - y1)**2)
     return (t >= 0) & (t <= 2 * vy / G) & (s >= 0) & (s <= 1)
 
 
 def crosses_segment(v0, alpha, seg):
-    # podstawiamy prostą odcinka do x(t), y(t) -> równanie kwadratowe względem t
+    # do równania prostej przez odcinek (sprawdzanie czy punkt leży na odcinku prostej), podstawiamy
+    # równanie toru lotu i otrzymujemy równanie kwadratowe względem czasu t
     x1, y1, x2, y2 = seg
     a = np.radians(alpha)
     vx, vy = v0 * np.cos(a), v0 * np.sin(a)
@@ -47,7 +50,7 @@ def crosses_segment(v0, alpha, seg):
 
     if abs(A) < 1e-12:  # odcinek pionowy -> równanie liniowe
         with np.errstate(divide="ignore", invalid="ignore"):
-            return hit_at_time(-C / B, v0, alpha, seg)
+            return hit_at_time(-C / B, v0, alpha, seg) # B·t + C = 0 wiec t = -C / B
     delta = B**2 - 4 * A * C
     root = np.sqrt(np.maximum(delta, 0))
     t1, t2 = (-B - root) / (2 * A), (-B + root) / (2 * A)
