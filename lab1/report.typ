@@ -37,7 +37,7 @@ i eliminując $s$, otrzymujemy równanie kwadratowe względem czasu:
 
 $ A t^2 + B t + C = 0 quad "gdzie" quad A = -1/2 d_x g, quad B = d_x v_(0y) - d_y v_(0x), quad C = d_y x_1 - d_x y_1 $
 
-Jeżeli wyróżnik $Delta = B^2 - 4 A C >= 0$, sprawdzane są oba pierwiastki:
+Jeżeli $Delta = B^2 - 4 A C >= 0$, sprawdzane są oba pierwiastki:
 przecięcie musi nastąpić w trakcie lotu ($0 <= t <= t_f$, gdzie
 $t_f = 2 v_(0y) \/ g$ to czas powrotu na poziom $y = 0$), a parametr $s$,
 wyznaczony z położenia ciała, musi spełniać $s in [0, 1]$ - inaczej punkt
