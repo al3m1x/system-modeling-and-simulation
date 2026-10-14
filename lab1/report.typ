@@ -18,18 +18,14 @@
 
 = Zadanie
 
-Ciało o pomijalnych rozmiarach startuje z punktu $(0, 0)$ z prędkością
-początkową $v_0$ skierowaną pod kątem $alpha$ do poziomu i porusza się
-w jednorodnym polu grawitacyjnym ($g = 10 "m/s"^2$), opisując trajektorię
-paraboliczną. Zadanie polega na znalezieniu takich par $(v_0, alpha)$ z obszaru
+Ciało startuje z punktu $(0, 0)$ z prędkością
+początkową $v_0$ skierowaną pod kątem $alpha$. Zadanie polega na znalezieniu takich par $(v_0, alpha)$ z obszaru
 $v_0 in [1, 30] "m/s"$, $alpha in [1 degree, 89 degree]$, aby trajektoria
 przecinała oba regiony dozwolone - $R_1$ i $R_2$ (odcinki poziome na wysokości
-$y = 3$: $x in [1, 5]$ oraz $x in [9, 13]$) - a jednocześnie nie przecinała
+$y = 3$: $x in [1, 5]$ oraz $x in [9, 13]$) i nie przecinała
 regionów zabronionych $R_3$ ani $R_4$ (odcinki pionowe $x = 7$: $y in [4, 5]$
-oraz $y in [7, 8]$). Pary $(v_0, alpha)$ losowano jednorodnie
-$N = "100 000"$ razy. Należało również narysować regiony wraz z przykładowymi
-trajektoriami oraz oszacować prawdopodobieństwo spełnienia warunków
-w pojedynczej próbie.
+oraz $y in [7, 8]$). Pary $(v_0, alpha)$ losowano
+$N = "100 000"$ razy.
 
 = Metoda rozwiązania
 
