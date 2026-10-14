@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 
 # parameters - change only this section
 G = 10.0  # gravitational acceleration [m/s^2]
-V0_RANGE = (1, 15)  # initial speed range [m/s]
+V0_RANGE = (1, 30)  # initial speed range [m/s]
 ALPHA_RANGE = (1, 89)  # launch angle range [deg]
 N_TRIALS = 100_000
 N_PLOTTED = 5  # number of valid trajectories to draw
 
 # regions as lists of segments (x1, y1, x2, y2)
 ALLOWED = {
-    "R1": [(2, 1, 2, 4)],
-    "R3": [(4, 1, 7, 1)],
+    "R1": [(1, 3, 5, 3)],
+    "R2": [(9, 3, 13, 3)],
 }
 FORBIDDEN = {
-    "R2": [(2.8, 1.5, 4, 1.5), (4, 1.5, 4, 3), (4, 3, 2.8, 3), (2.8, 3, 2.8, 1.5)],  # rectangle
+    "R3": [(7, 4, 7, 5)],
+    "R4": [(7, 7, 7, 8)],
 }
 
 
