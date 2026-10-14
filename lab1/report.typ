@@ -30,22 +30,30 @@ $N = "100 000"$ razy.
 = Metoda rozwiązania
 
 Zamiast całkowania ruchu z krokiem czasowym zastosowano analityczny test
-przecięcia. Punkty odcinka opisuje parametr $s in [0, 1]$:
-$P(s) = (x_1 + s d_x, y_1 + s d_y)$, gdzie $d_x = x_2 - x_1$,
-$d_y = y_2 - y_1$. Podstawiając równania ruchu do prostej zawierającej odcinek
-i eliminując $s$, otrzymujemy równanie kwadratowe względem czasu:
+przecięcia złożony z dwóch kroków: wyznaczenia chwil przecięcia oraz
+sprawdzenia tych chwil.
+
+*Wyznaczenie chwil przecięcia* (funkcja `crosses_segment`). Punkty odcinka
+opisuje parametr $s in [0, 1]$: $P(s) = (x_1 + s d_x, y_1 + s d_y)$, gdzie
+$d_x = x_2 - x_1$, $d_y = y_2 - y_1$. Podstawiając równania ruchu do prostej
+zawierającej odcinek i eliminując $s$, otrzymujemy równanie kwadratowe
+względem czasu:
 
 $ A t^2 + B t + C = 0 quad "gdzie" quad A = -1/2 d_x g, quad B = d_x v_(0y) - d_y v_(0x), quad C = d_y x_1 - d_x y_1 $
 
-Jeżeli $Delta = B^2 - 4 A C >= 0$, sprawdzane są oba pierwiastki:
-przecięcie musi nastąpić w trakcie lotu ($0 <= t <= t_f$, gdzie
-$t_f = 2 v_(0y) \/ g$ to czas powrotu na poziom $y = 0$), a parametr $s$,
-wyznaczony z położenia ciała, musi spełniać $s in [0, 1]$ - inaczej punkt
-przecięcia leżałby jedynie na przedłużeniu odcinka. Dla odcinków pionowych
-($d_x = 0$), takich jak $R_3$ i $R_4$, równanie jest liniowe ($t = -C \/ B$).
-Odcinek jest przecięty, gdy którykolwiek z pierwiastków spełnia oba warunki,
-a region - gdy przecięty jest dowolny jego odcinek. Wszystkie sprawdzenia
-wykonano wektorowo w NumPy.
+Dla odcinków pionowych ($d_x = 0$), takich jak $R_3$ i $R_4$, równanie jest
+liniowe ($t = -C \/ B$). Jeżeli $Delta = B^2 - 4 A C >= 0$, rozwiązania
+$t_1$ i $t_2$ to chwile, w których trajektoria spotyka prostą zawierającą
+odcinek.
+
+*Test chwil* (funkcja `hit_at_time`). Każdą z tych chwil sprawdzamy
+niezależnie: przecięcie musi nastąpić w trakcie lotu ($0 <= t <= t_f$, gdzie
+$t_f = 2 v_(0y) \/ g$ to czas powrotu na poziom $y = 0$), a ciało musi leżeć
+na odcinku, a nie jedynie na jego przedłużeniu - w implementacji warunek ten
+wyraża parametr $s$ wyznaczony z położenia ciała, który musi spełniać
+$s in [0, 1]$. Odcinek jest przecięty, gdy którykolwiek z pierwiastków
+spełnia oba warunki, a region - gdy przecięty jest dowolny jego odcinek.
+Wszystkie sprawdzenia wykonano wektorowo w NumPy.
 
 = Wyniki
 
