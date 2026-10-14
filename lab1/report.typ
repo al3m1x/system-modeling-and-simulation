@@ -79,7 +79,7 @@ $hat(p) = n \/ N approx 0.0135$.
 
 Oszacowana częstość $hat(p) approx 1.35%$ ma błąd standardowy
 $sigma = sqrt(hat(p)(1 - hat(p)) \/ N) approx 3.6 dot 10^(-4)$, czyli ok. 2.7%
-wartości $\hat(p)$. Dokładność zależy przede wszystkim od liczby prób $N$ -
+wartości $hat(p)$. Dokładność zależy przede wszystkim od liczby prób $N$ -
 błąd maleje jak $1 \/ sqrt(N)$ - oraz od wartości $p$ (przez czynnik
 $p(1 - p)$). Przy jednorodnym i niezależnym losowaniu jedynym źródłem
 niepewności jest skończona liczba prób.
