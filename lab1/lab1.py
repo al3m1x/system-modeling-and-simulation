@@ -1,5 +1,9 @@
+from pathlib import Path
+
 import numpy as np
 import matplotlib.pyplot as plt
+
+OUT = Path(__file__).parent  # figures are saved next to this script
 
 # parameters - change only this section
 G = 10.0  # gravitational acceleration [m/s^2]
@@ -76,7 +80,7 @@ plt.xlabel("alpha [deg]")
 plt.ylabel("v0 [m/s]")
 plt.title("Initial values fulfilling the conditions")
 plt.grid(alpha=0.3)
-plt.savefig("fig_initial_values.png", dpi=200)
+plt.savefig(OUT / "fig_initial_values.png", dpi=200)
 
 # 2. regions and valid trajectories
 plt.figure()
@@ -98,7 +102,7 @@ plt.ylabel("y [m]")
 plt.title("Allowed (green) and forbidden (red) regions")
 plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
 plt.grid(alpha=0.3)
-plt.savefig("fig_trajectories.png", dpi=200, bbox_inches="tight")
+plt.savefig(OUT / "fig_trajectories.png", dpi=200, bbox_inches="tight")
 
 # 3. probability of fulfilling the conditions in a single try
 print(f"P = {valid.sum()} / {N_TRIALS} = {valid.mean():.5f}")
