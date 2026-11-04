@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 OUT = Path(__file__).parent  # figures are saved next to this script
 
 # parameters - change only this section
-G = 10.0  # gravitational acceleration [m/s^2]
+G = 9.81  # gravitational acceleration [m/s^2]
 M = 1.0  # mass of the body [kg]
-F_COEF = (1, 1, 0, 0, 0, 0)  # surface f(x,y) = a*x^2 + b*y^2 + c*x*y + p*x + q*y + r
-START = (-5, 0, 200)  # initial position x0, y0, z0
-V_START = (2, 4, 0)  # initial velocity v0x, v0y, v0z
-K_LIST = (1.0, 0.8)  # energy loss coefficients to simulate (1 = no losses)
+F_COEF = (1, -1, 0, 0, 0, 0)  # f(x,y) = a*x^2 + b*y^2 + c*x*y + p*x + q*y + r
+START = (-10, 0.01, 200)  # initial position xyz
+V_START = (10, 0, 0)  # initial velocity v
+K_LIST = (1.0, 0.9)  # energy loss coefficients to simulate (1 = no losses)
 N_BOUNCES = 5
 EPS = 1e-9  # roots smaller than this are the starting point itself (t = 0)
 
