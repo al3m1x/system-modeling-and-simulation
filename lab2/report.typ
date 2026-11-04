@@ -35,11 +35,11 @@
 
 = Zadanie
 
-Ciało o masie $m = 1 "kg"$ porusza się w jednorodnym polu grawitacyjnym ($g = 9.81 "m/s"^2$) i odbija się od powierzchni $z = f(x, y) = x^2 - y^2$. Warunki początkowe: $(x_0, y_0, z_0) = (-10, 0.01, 200)$ oraz $bold(v)_0 = (10, 0, 0)$. Symulujemy pięć pierwszych odbić, wyznaczając punkty odbicia, czasy $Delta t$ między kolejnymi kolizjami oraz energie $E_"kin"$, $E_"pot"$ i $E_"total"$ w punktach odbicia – dla odbić sprężystych ($k = 1$) oraz ze stratami energii ($k = 0.9$), gdzie $k$ oznacza stosunek energii kinetycznej po odbiciu do energii kinetycznej sprzed odbicia.
+Ciało o masie $m = 1 "kg"$ porusza się w jednorodnym polu grawitacyjnym ($g = 9.81 "m/s"^2$) i odbija się od powierzchni $z = f(x, y) = x^2 - y^2$. Warunki początkowe: $(x_0, y_0, z_0) = (-10, 0.01, 200)$ oraz $bold(v)_0 = (10, 0, 0)$. Symulujemy pięć pierwszych odbić, wyznaczając punkty odbicia, czasy $Delta t$ między kolejnymi kolizjami oraz energie $E_"kin"$, $E_"pot"$ i $E_"total"$ w punktach odbicia - dla odbić sprężystych ($k = 1$) oraz ze stratami energii ($k = 0.9$), gdzie $k$ oznacza stosunek energii kinetycznej po odbiciu do energii kinetycznej sprzed odbicia.
 
 = Metoda rozwiązania
 
-Ruch ciała opisują równania $x = x_0 + v_(0x) t$, $y = y_0 + v_(0y) t$ oraz $z = z_0 + v_(0z) t - 1/2 g t^2$. Po podstawieniu ich do warunku zetknięcia z powierzchnią $z(t) = f(x(t), y(t))$ otrzymujemy równanie kwadratowe $A t^2 + B t + C = 0$ (dla $f$ stopnia $<= 2$). Odrzucamy pierwiastki zespolone i niedodatnie; czas pierwszego odbicia $t_I$ to najmniejszy z pozostałych – przy pierwszym odbiciu drugi pierwiastek jest ujemny, a przy kolejnych bliski zeru, bo odpowiada punktowi startowemu.
+Ruch ciała opisują równania $x = x_0 + v_(0x) t$, $y = y_0 + v_(0y) t$ oraz $z = z_0 + v_(0z) t - 1/2 g t^2$. Po podstawieniu ich do warunku zetknięcia z powierzchnią $z(t) = f(x(t), y(t))$ otrzymujemy równanie kwadratowe $A t^2 + B t + C = 0$. Odrzucamy pierwiastki zespolone i niedodatnie; czas pierwszego odbicia $t_I$ to najmniejszy z pozostałych - przy pierwszym odbiciu drugi pierwiastek jest ujemny, a przy kolejnych bliski zeru, bo odpowiada punktowi startowemu.
 
 Punkt odbicia wyznaczamy z równań ruchu dla $t = t_I$; prędkość tuż przed odbiciem wynosi $bold(v)^("before") = [v_(0x), v_(0y), v_(0z) - g t_I]$. Kierunek odbicia określa znormalizowany wektor normalny powierzchni w punkcie kolizji
 
@@ -53,7 +53,7 @@ Punkt odbicia staje się nowym warunkiem początkowym i procedurę powtarzamy pi
 
 = Wyniki
 
-W tabelach pierwszy wiersz podaje czas od startu do pierwszego odbicia, kolejne – czasy między sąsiednimi kolizjami; $Delta t$ w sekundach, energie w dżulach.
+W tabelach pierwszy wiersz podaje czas od startu do pierwszego odbicia, kolejne - czasy między sąsiednimi kolizjami; $Delta t$ w sekundach, energie w dżulach.
 
 == Odbicia sprężyste ($k = 1$)
 
@@ -69,7 +69,7 @@ W tabelach pierwszy wiersz podaje czas od startu do pierwszego odbicia, kolejne 
   caption: [Punkty odbicia, czasy między kolizjami i energie dla odbić sprężystych ($k = 1$).],
 )
 
-Całkowita energia jest stała: $E_"total" = 2012.0000 "J" = m g z_0 + 1/2 m norm(bold(v)_0)^2$. Energia kinetyczna rośnie, a potencjalna maleje – zamieniają się one wyłącznie między sobą. Zwraca uwagę naprzemienny znak $x_I$: ciało odbija się na przemian po obu stronach siodła, a czas lotu skraca się z każdym odbiciem (z 2.32 s do 0.33 s).
+Całkowita energia jest stała: $E_"total" = 2012.0000 "J" = m g z_0 + 1/2 m norm(bold(v)_0)^2$. Energia kinetyczna rośnie, a potencjalna maleje - zamieniają się one wyłącznie między sobą. Zwraca uwagę naprzemienny znak $x_I$: ciało odbija się na przemian po obu stronach siodła, a czas lotu skraca się z każdym odbiciem (z 2.32 s do 0.33 s).
 
 #figure(image("fig_bounces_k1.0.png", width: 82%), kind: image, caption: [Pięć pierwszych odbić od powierzchni $z = x^2 - y^2$ bez strat energii ($k = 1$); punkty odbić zaznaczono czarnymi kropkami.])
 
@@ -95,4 +95,4 @@ Pierwsze odbicie jest identyczne jak w przypadku sprężystym. Od drugiego odbic
 
 + Warunek kolizji $z(t) = f(x(t), y(t))$ sprowadza się do równania kwadratowego względem $t$; najmniejszy dodatni pierwiastek rzeczywisty daje czas pierwszego odbicia, również dla kolejnych odbić.
 + Przy odbiciach sprężystych ($k = 1$) całkowita energia mechaniczna jest zachowana (2012 J w każdym punkcie odbicia); zmienia się jedynie podział na energię kinetyczną i potencjalną.
-+ Dla $k = 0.9$ całkowita energia maleje z każdym odbiciem (z 2012 J do 1598.89 J po pięciu odbiciach), a czasy między kolizjami skracają się (z 2.32 s do 0.35 s) – ciało stopniowo traci energię.
++ Dla $k = 0.9$ całkowita energia maleje z każdym odbiciem (z 2012 J do 1598.89 J po pięciu odbiciach), a czasy między kolizjami skracają się (z 2.32 s do 0.35 s) - ciało stopniowo traci energię.
