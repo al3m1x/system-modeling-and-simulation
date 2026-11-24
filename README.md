@@ -6,4 +6,5 @@ py -3.12 -m venv .venv
 pip install -r requirements.txt
 python lab1\lab1.py
 python lab2\lab2.py
+python lab3\lab3.py
 ```
