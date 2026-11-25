@@ -1,5 +1,5 @@
-#set page(paper: "a4", margin: (x: 2cm, y: 2cm), numbering: "1")
-#set text(lang: "pl", size: 11pt)
+#set page(paper: "a4", margin: (x: 2cm, y: 1.5cm), numbering: "1")
+#set text(lang: "pl", size: 10.5pt)
 #set par(justify: true)
 #set heading(numbering: "1.")
 #set math.equation(numbering: "(1)")
@@ -44,7 +44,7 @@ $ (y_m^((k+1)) - 2 y_m^((k)) + y_m^((k-1)))/(Delta t^2)
 Mnożymy przez $Delta t^2$ i przenosimy $y_m^((k+1))$ na lewą stronę:
 
 $ (1 + Delta t beta) y_m^((k+1))
-  = vdx [y_(m+1)^((k)) - 2 y_m^((k)) + y_(m-1)^((k))] + 2 y_m^((k)) - (1 - Delta t beta) y_m^((k-1)) $ <ogolny>
+  = vdx (y_(m+1)^((k)) - 2 y_m^((k)) + y_(m-1)^((k))) + 2 y_m^((k)) - (1 - Delta t beta) y_m^((k-1)) $ <ogolny>
 
 Dla węzła brzegowego $m = M$ wzór potrzebuje sąsiada $y_(M+1)^((k))$, który leży *poza struną*
 (węzeł-duch). Na wykładzie duch był po lewej ($y_0^((k))$), tutaj jest po prawej.
@@ -59,17 +59,27 @@ $ (y_(M+1)^((k)) - y_(M-1)^((k)))/(2 Delta x) = h_k
 Na slajdzie 25 jest $(y_2^((k)) - y_0^((k)))/(2 Delta x) = h_k$, skąd $y_0^((k)) = y_2^((k)) - 2 Delta x thin h_k$.
 Tutaj znak jest *plus*, bo duch leży po drugiej stronie węzła brzegowego.
 
-Wstawiamy @duch do nawiasu we wzorze @ogolny:
+Wzór ogólny @ogolny zapisany dla węzła brzegowego $m = M$ (w nawiasie pojawia się duch):
+
+$ (1 + Delta t beta) y_M^((k+1))
+  = vdx (y_(M+1)^((k)) - 2 y_M^((k)) + y_(M-1)^((k))) + 2 y_M^((k)) - (1 - Delta t beta) y_M^((k-1)) $ <brzeg>
+
+Na slajdzie 25 jest to samo dla lewego końca $m = 1$ i bez tłumienia ($beta = 0$):
+
+#math.equation(block: true, numbering: none,
+  $y_1^((k+1)) = vdx (y_2^((k)) - 2 y_1^((k)) + y_0^((k))) + 2 y_1^((k)) - y_1^((k-1))$)
+
+Wstawiamy ducha @duch do nawiasu we wzorze @brzeg:
 
 $ y_(M+1)^((k)) - 2 y_M^((k)) + y_(M-1)^((k))
-  = 2 [y_(M-1)^((k)) - y_M^((k)) + Delta x thin h_k] $ <nawias>
+  = 2 (y_(M-1)^((k)) - y_M^((k)) + Delta x thin h_k) $ <nawias>
 
 = Prawy koniec, kolejne kroki ($k >= 2$)
 
-Po wstawieniu @nawias do @ogolny i podzieleniu przez $(1 + Delta t beta)$:
+Po wstawieniu @nawias do @brzeg i podzieleniu przez $(1 + Delta t beta)$:
 
 #wynik[
-$ y_M^((k+1)) = 2/(1 + Delta t beta) vdx [y_(M-1)^((k)) - y_M^((k)) + Delta x thin h_k]
+$ y_M^((k+1)) = 2/(1 + Delta t beta) vdx (y_(M-1)^((k)) - y_M^((k)) + Delta x thin h_k)
   + 2/(1 + Delta t beta) y_M^((k))
   - (1 - Delta t beta)/(1 + Delta t beta) y_M^((k-1)) $ <krok-k>
 ]
@@ -82,16 +92,16 @@ Wyznaczamy go z prędkości początkowej:
 $ (y_M^((2)) - y_M^((0)))/(2 Delta t) = g_M
   quad => quad y_M^((0)) = y_M^((2)) - 2 Delta t thin g_M $
 
-Wstawiamy do @ogolny razem z @nawias:
+Wstawiamy do @brzeg (dla $k = 1$) razem z @nawias:
 
 $ (1 + Delta t beta) y_M^((2))
-  = 2 vdx [y_(M-1)^((1)) - y_M^((1)) + Delta x thin h_1] + 2 y_M^((1))
+  = 2 vdx (y_(M-1)^((1)) - y_M^((1)) + Delta x thin h_1) + 2 y_M^((1))
   - (1 - Delta t beta)(y_M^((2)) - 2 Delta t thin g_M) $
 
 Wyrazy z $y_M^((2))$ przenosimy na lewo, $(1 + Delta t beta) + (1 - Delta t beta) = 2$, i dzielimy przez 2:
 
 #wynik[
-$ y_M^((2)) = vdx [y_(M-1)^((1)) - y_M^((1)) + Delta x thin h_1]
+$ y_M^((2)) = vdx (y_(M-1)^((1)) - y_M^((1)) + Delta x thin h_1)
   + y_M^((1)) + (1 - Delta t beta) Delta t thin g_M $ <krok-1>
 ]
 

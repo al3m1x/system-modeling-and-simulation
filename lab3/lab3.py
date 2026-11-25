@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -19,18 +18,13 @@ RIGHT = lambda t: -3 * np.pi * np.sqrt(2) / 2  # prawy koniec: nachylenie dy/dx(
 
 
 def simulate(b):
-    # równanie falowe z tłumieniem (wykład 5): y_tt = v^2 * y_xx - 2*beta * y_t
-    # rozwiązywane jawnym schematem różnic skończonych, y[k, m] = y(x_m, t_k)
-    # (pochodne zastąpione ilorazami centralnymi z rozwinięcia Taylora)
     beta = b / (2 * MU)  # tempo wygasania drgań [1/s]; z porównania b/mu = 2*beta
     x = np.linspace(0, L, M)
     dx = x[1] - x[0]  # = L / (M - 1), bo M to liczba węzłów, nie przedziałów
     v = np.sqrt(TENSION / MU)  # prędkość fali w strunie
-    dt = dx / v  # warunek stabilności CFL: dt <= dx / v, bierzemy największy dozwolony krok
+    dt = dx / v  # warunek stabilności CFL
     t = np.arange(N) * dt
 
-    # stałe schematu (wykład 5): p = (v*dt/dx)^2 (dla dt = dx/v wychodzi 1),
-    # q i u pochodzą z różnicy centralnej w członie tłumiącym -2*beta*y_t
     p = (v * dt / dx) ** 2
     q = 1 + beta * dt
     u = 1 - beta * dt
@@ -38,8 +32,7 @@ def simulate(b):
     y = np.zeros((N, M))
     y[0] = S(x)
 
-    # pierwszy krok: brak y[-1], więc zastępujemy go z prędkości początkowej
-    # (g = [y1 - y(-1)] / (2*dt)) i wstawiamy do wzoru ogólnego dla k = 0
+    # z wyprowadzenia
     y[1, 1:-1] = p / 2 * (y[0, 2:] - 2 * y[0, 1:-1] + y[0, :-2]) + y[0, 1:-1] + u * dt * G(x[1:-1])
     y[1, 0] = LEFT(t[1])  # warunek Dirichleta: wartość zadana wprost
     y[1, -1] = p * (y[0, -2] - y[0, -1] + dx * RIGHT(t[0])) + y[0, -1] + u * dt * G(x[-1])
@@ -49,14 +42,10 @@ def simulate(b):
         y[k + 1, 1:-1] = (p / q * (y[k, 2:] - 2 * y[k, 1:-1] + y[k, :-2])
                           + 2 / q * y[k, 1:-1] - u / q * y[k - 1, 1:-1])
         y[k + 1, 0] = LEFT(t[k + 1])
-        # prawy koniec (Neumann): węzeł-duch y(M+1) = y(M-1) + 2*dx*k wynika z różnicy
-        # centralnej dy/dx = [y(M+1) - y(M-1)] / (2*dx) = k; podstawiony do wzoru ogólnego
-        # daje y(M+1) - 2*y(M) + y(M-1) = 2*(y(M-1) - y(M) + dx*k)
-        # (znak przy dx*k odwrotny niż dla lewego końca, bo duch leży teraz po prawej)
+        # prawy koniec (Neumann)
         y[k + 1, -1] = 2 * p / q * (y[k, -2] - y[k, -1] + dx * RIGHT(t[k])) + 2 / q * y[k, -1] - u / q * y[k - 1, -1]
 
     return x, t, y
-
 
 # stan równowagi (nic się już nie zmienia w czasie): y_t = y_tt = 0 => y_xx = 0,
 # czyli y_E = c*x + d; c z nachylenia na prawym końcu, d z wychylenia na lewym (y_E(0) = d)
@@ -79,7 +68,6 @@ for b in B_LIST:
 
     if b > 0:
         # porównanie ostatniej iteracji ze stanem równowagi
-        # (przy tłumieniu amplituda maleje jak exp(-beta*t), więc różnica jest mała, ale nie zerowa)
         plt.figure()
         plt.plot(x, y[-1], linewidth=3, label="last iteration")
         plt.plot(x, c * x + d, "r", linewidth=1, label="equilibrium")
