@@ -3,9 +3,8 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 
-OUT = Path(__file__).parent  # wykresy zapisują się obok tego skryptu
+OUT = Path(__file__).parent
 
-# parametry - zmieniaj tylko tę sekcję
 MU = 0.01  # gęstość liniowa struny [kg/m]
 TENSION = 100.0  # naprężenie struny [N]
 L = 1.0  # długość struny [m]
@@ -13,10 +12,10 @@ M = 100  # liczba węzłów w przestrzeni
 N = 2000  # liczba poziomów czasowych
 B_LIST = (0.0, 0.5)  # współczynniki tłumienia do symulacji (0 = brak tłumienia)
 
-S = lambda x: -2 * x**2 + 0.8 * x + 0.92  # kształt początkowy y(x, 0)
-G = lambda x: np.sin(2 * np.pi * x)  # prędkość początkowa dy/dt(x, 0)
-H = lambda t: 0.8  # lewy koniec: nachylenie dy/dx(0, t) (warunek Neumanna)
-R = lambda t: -0.28  # prawy koniec: wychylenie y(L, t) (warunek Dirichleta)
+S = lambda x: np.sin(3 * np.pi * x + np.pi / 4)  # kształt początkowy y(x, 0)
+G = lambda x: x - x**2  # prędkość początkowa dy/dt(x, 0)
+LEFT = lambda t: np.sqrt(2) / 2  # lewy koniec: wychylenie y(0, t) (warunek Dirichleta)
+RIGHT = lambda t: -3 * np.pi * np.sqrt(2) / 2  # prawy koniec: nachylenie dy/dx(L, t) (warunek Neumanna)
 
 
 def simulate(b):
@@ -42,26 +41,27 @@ def simulate(b):
     # pierwszy krok: brak y[-1], więc zastępujemy go z prędkości początkowej
     # (g = [y1 - y(-1)] / (2*dt)) i wstawiamy do wzoru ogólnego dla k = 0
     y[1, 1:-1] = p / 2 * (y[0, 2:] - 2 * y[0, 1:-1] + y[0, :-2]) + y[0, 1:-1] + u * dt * G(x[1:-1])
-    y[1, 0] = p * (y[0, 1] - y[0, 0] - dx * H(t[0])) + y[0, 0] + u * dt * G(x[0])
-    y[1, -1] = R(t[1])  # warunek Dirichleta: wartość zadana wprost
+    y[1, 0] = LEFT(t[1])  # warunek Dirichleta: wartość zadana wprost
+    y[1, -1] = p * (y[0, -2] - y[0, -1] + dx * RIGHT(t[0])) + y[0, -1] + u * dt * G(x[-1])
 
     for k in range(1, N - 1):
         # wzór ogólny (wykład 5): nowy punkt z jego dwóch poprzednich chwil i sąsiadów
         y[k + 1, 1:-1] = (p / q * (y[k, 2:] - 2 * y[k, 1:-1] + y[k, :-2])
                           + 2 / q * y[k, 1:-1] - u / q * y[k - 1, 1:-1])
-        # lewy koniec (Neumann): węzeł-duch y(-1) = y1 - 2*dx*h wynika z różnicy
-        # centralnej dy/dx = [y1 - y(-1)] / (2*dx) = h; podstawiony do wzoru ogólnego
-        # daje y1 - 2*y0 + y(-1) = 2*(y1 - y0 - dx*h)
-        y[k + 1, 0] = 2 * p / q * (y[k, 1] - y[k, 0] - dx * H(t[k])) + 2 / q * y[k, 0] - u / q * y[k - 1, 0]
-        y[k + 1, -1] = R(t[k + 1])
+        y[k + 1, 0] = LEFT(t[k + 1])
+        # prawy koniec (Neumann): węzeł-duch y(M+1) = y(M-1) + 2*dx*k wynika z różnicy
+        # centralnej dy/dx = [y(M+1) - y(M-1)] / (2*dx) = k; podstawiony do wzoru ogólnego
+        # daje y(M+1) - 2*y(M) + y(M-1) = 2*(y(M-1) - y(M) + dx*k)
+        # (znak przy dx*k odwrotny niż dla lewego końca, bo duch leży teraz po prawej)
+        y[k + 1, -1] = 2 * p / q * (y[k, -2] - y[k, -1] + dx * RIGHT(t[k])) + 2 / q * y[k, -1] - u / q * y[k - 1, -1]
 
     return x, t, y
 
 
 # stan równowagi (nic się już nie zmienia w czasie): y_t = y_tt = 0 => y_xx = 0,
-# czyli y_E = c*x + d; c z nachylenia na lewym końcu, d z wychylenia na prawym
-c = H(0)
-d = R(0) - c * L
+# czyli y_E = c*x + d; c z nachylenia na prawym końcu, d z wychylenia na lewym (y_E(0) = d)
+c = RIGHT(0)
+d = LEFT(0)
 print(f"equilibrium solution: y_E(x) = {c:g}*x {d:+g}")
 
 for b in B_LIST:
